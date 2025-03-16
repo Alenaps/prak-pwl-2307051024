@@ -19,11 +19,11 @@
         <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4"> 
             <span><?= $nama ?></span>
         </div>
-        <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4"> 
-            <span><?= $kelas ?></span>
-        </div>
         <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4">
            <span><?= $npm ?></span>
+        </div>
+        <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4"> 
+            <span><?= $kelas ?></span>
         </div>
     </div>
 </div>
