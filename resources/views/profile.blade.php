@@ -23,7 +23,7 @@
            <span><?= $npm ?></span>
         </div>
         <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4"> 
-            <span><?= $kelas ?></span>
+            <span>{{ $nama_kelas ?? 'Kelas tidak ditemukan'}}</span>
         </div>
     </div>
 </div>
