@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
+@extends('layouts.app')
+
+@section('content')
+
+<style>
         body {
             background: linear-gradient(to right, rgb(13, 12, 77), #53A2DC); 
             height: 100vh;
@@ -69,36 +66,37 @@
         }
     select:focus { outline: none; border: 2px solid #6a82fb; } option { color: black; /* Warna teks default */ } select option:checked { background-color: #6a82fb; /* Warna latar belakang saat dipilih */ color: white; /* Warna teks saat dipilih */ }
     </style>
-</head>
-<body>
-    <form class="form-container" action="{{ route('user.store') }}" method="POST">
-        @csrf
-        <h2 class="text-2xl font-semibold text-center text-white mb-6">Login</h2>
+    
+    <div>
+        <form class="form-container" action="{{ route('user.store') }}" method="POST">
+            @csrf
+            <h2 class="text-2xl font-semibold text-center text-white mb-6">Login</h2>
 
-        <!-- Input Nama -->
-        <input class="input-field" type="text" name="nama" placeholder="NAMA">
-        @foreach ($errors->get('nama') as $msg) 
-            <p class="error-message">{{ $msg }}</p>
-        @endforeach
+            <!-- Input Nama -->
+            <input class="input-field" type="text" name="nama" placeholder="NAMA">
+            @foreach ($errors->get('nama') as $msg) 
+                <p class="error-message">{{ $msg }}</p>
+            @endforeach
 
-        <!-- Input NPM -->
-        <input class="input-field" type="text" name="npm" placeholder="NPM">
-        @foreach ($errors->get('npm') as $msg) 
-            <p class="error-message">{{ $msg }}</p>
-        @endforeach
+            <!-- Input NPM -->
+            <input class="input-field" type="text" name="npm" placeholder="NPM">
+            @foreach ($errors->get('npm') as $msg) 
+                <p class="error-message">{{ $msg }}</p>
+            @endforeach
 
-        <!-- Dropdown Kelas -->
-        <div class="field-row">
-            <label for="kelas_id">Kelas:</label>
-            <select class="select-field" name="kelas_id" id="kelas_id">
-                @foreach ($kelas as $kelasItem)
-                    <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
-                @endforeach
-            </select>
-        </div>
+            <!-- Dropdown Kelas -->
+            <div class="field-row">
+                <label for="kelas_id">Kelas:</label>
+                <select class="select-field" name="kelas_id" id="kelas_id">
+                    <option value="" disabled selected>Pilih Kelas</option> 
+                    @foreach ($kelas as $kelasItem)
+                        <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <!-- Submit Button -->
-        <button class="button" type="submit">Submit</button>
-    </form>
-</body>
-</html>
+            <!-- Submit Button -->
+            <button class="button" type="submit">Submit</button>
+        </form>
+    </div>
+@endsection
