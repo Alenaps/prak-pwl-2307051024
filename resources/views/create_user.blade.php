@@ -40,8 +40,9 @@
             width: 20%; /* Lebar label */
             text-align: right;
         }
-        .select-field {
-            background: rgba(255, 255, 255, 0.2);
+        .select-field,
+        .input-field[type="file"] {
+            background: rgba(255, 255, 255, 0.96);
             border: none;
             border-radius: 5px;
             padding: 10px;
@@ -64,11 +65,20 @@
             width: 100%;
             text-align: center;
         }
-    select:focus { outline: none; border: 2px solid #6a82fb; } option { color: black; /* Warna teks default */ } select option:checked { background-color: #6a82fb; /* Warna latar belakang saat dipilih */ color: white; /* Warna teks saat dipilih */ }
+    select:focus { 
+        outline: none; 
+        border: 2px solid #6a82fb; 
+    } 
+    option { 
+        color: black; /* Warna teks default */ 
+    } 
+    select option:checked { 
+        background-color: #6a82fb; /* Warna latar belakang saat dipilih */ 
+        color: white; /* Warna teks saat dipilih */ }
     </style>
     
     <div>
-        <form class="form-container" action="{{ route('user.store') }}" method="POST">
+        <form class="form-container" action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <h2 class="text-2xl font-semibold text-center text-white mb-6">Login</h2>
 
@@ -87,12 +97,17 @@
             <!-- Dropdown Kelas -->
             <div class="field-row">
                 <label for="kelas_id">Kelas:</label>
-                <select class="select-field" name="kelas_id" id="kelas_id">
+                <select class="select-field text-black" name="kelas_id" id="kelas_id">
                     <option value="" disabled selected>Pilih Kelas</option> 
                     @foreach ($kelas as $kelasItem)
                         <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
                     @endforeach
                 </select>
+            </div>
+            <!-- Input Foto -->
+            <div class="field-row">
+                <label for="foto" class="form-label">Foto:</label>
+                <input type="file" class="form-control select-field" id="foto" name="foto">
             </div>
 
             <!-- Submit Button -->

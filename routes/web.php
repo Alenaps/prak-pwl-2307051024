@@ -27,6 +27,7 @@ Route::get('/', function () {
 });
 
 Route::get('/user/profile',[ProfileController::class,'profile']);
-Route::get('/user/create',[UserController::class,'create']);
+Route::get('/user/create',[UserController::class,'create'])->name('user.create');
 Route::post('/user/store',[UserController::class,'store'])->name('user.store');
-Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::get('/user/list', [UserController::class, 'index'])->name('user.list');
+Route::get('/show/{id}', [UserController::class, 'show'])->name('users.show');
