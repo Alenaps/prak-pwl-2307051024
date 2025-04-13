@@ -35,29 +35,37 @@ class UserController extends Controller
     }   
     public function store(UserRequest $request)
     {
-        // $validatedData = $request->validate([
-        //     'nama' =>'required|string|max:255',
-        //     'npm' => 'required|string|max:255, 
-        //     'kelas_id' =>'required|exists:kelas,id',
+        $validatedData = $request->validate([
+            'nama' =>'required|string|max:255',
+            'npm' => 'required|string|max:255',
+            'kelas_id' =>'required|exists:kelas,id',
+            'foto' =>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong.',
+            'nama.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'npm.required' => 'NPM wajib diisi.',
+            'npm.size' => 'NPM harus terdiri dari 10 digit.',
+            'foto.image' => 'Foto harus berupa gambar.',
+            'foto.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
+        ]);
 
-        // ]);
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoPath = time().'_'.$foto->getClientOriginalName();
+            $foto->move(public_path('assets/upload/img'), $fotoPath);
+        }
 
-        // $user = UserModel::create($validatedData);
-
-        // $user->load('kelas');     
-
-        // return view('profile', [
-        // 'nama' => $user->nama,
-        // 'npm' => $user->npm,
-        // 'nama_kelas' => optional($user->kelas)->nama_kelas ?? 'Kelas tidak ditemukan',
-        // ]);    
+        else {
+            $fotoPath = null;
+        }
        
         $this->userModel->create([
             'nama' => $request->input('nama'),
             'npm' => $request->input('npm'),
             'kelas_id' => $request->input('kelas_id'),
+            'foto' => $fotoPath,
         ]);
-        return redirect()->to('/user'); 
+        return redirect()->to('/user/list')->with('success', 'User berhasil ditambahkan.'); 
     }
 
     public $userModel;
@@ -75,5 +83,15 @@ class UserController extends Controller
         ];
         
         return view('list_user', $data); 
+    }
+
+    public function show($id){
+        $user = $this->userModel->getUser($id);
+        $data = [
+            'title' => 'Profille',
+            'user'  => $user,
+        ];
+
+        return view('profile', $data);
     }
 }
