@@ -26,8 +26,18 @@
                             <img src="{{ asset('assets/upload/img/'. $user->foto) }}" alt="Foto User" width="80">
                         </td>
                         <td class="px-4 py-2"> 
-                            <a href="{{ route('users.show', $user['id']) }}" class="btn btn-primary">Detail</a>
-                            
+                            <!--Detail-->
+                            <a href="{{ route('user.show', $user['id']) }}" class="btn btn-primary">Detail</a>
+                            <!--Edit-->
+                            <a href="{{ route('user.edit', $user['id']) }}" class="btn btn-warning">Edit</a>
+                            <!---Delete-->
+                            <form action="{{ route('user.destroy', $user['id']) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')    
+                                <button type="submit" class="btn btn-danger" 
+                                onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Hapus</button>
+                            </form>
+                        </td>
                     </td>
                     <?php
                 }
