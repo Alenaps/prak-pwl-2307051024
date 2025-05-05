@@ -14,9 +14,23 @@
 <body class="flex items-center justify-center min-h-screen bg-gray-200">
 
 <div class="bg-white p-8 rounded-lg shadow-lg w-80 text-center">
-<img class="w-24 h-24 mx-auto rounded-full border-4 border-blue-200 hover:animate-bounce" 
-     src="{{ $user->foto ? asset('assets/upload/img/' . $user->foto) : asset('assets/img/fotoprofile.jpeg') }}" 
-     alt="Foto Profile">
+     <div>
+        @php
+                $pathStorage = 'storage/uploads/' . $user->foto;
+                $pathAsset = 'assets/upload/img/' . $user->foto;
+        @endphp
+
+        @if($user->foto && file_exists(public_path($pathStorage)))
+            <img class="w-24 h-24 mx-auto rounded-full border-4 border-blue-200 hover:animate-bounce"
+            src="{{ asset($pathStorage) }}" alt="Foto User" width="80">
+        @elseif($user->foto && file_exists(public_path($pathAsset)))
+            <img class="w-24 h-24 mx-auto rounded-full border-4 border-blue-200 hover:animate-bounce"
+            src="{{ asset($pathAsset) }}" alt="Foto User" width="80">
+        @else
+            <img class="w-24 h-24 mx-auto rounded-full border-4 border-blue-200 hover:animate-bounce"
+            src="{{ asset('assets/img/fotoprofile.jpeg') }}" alt="Default User" width="80">
+        @endif
+     </div>
        <div class="mt-4 space-y-2">
         <div class="bg-gray-200 text-gray-800 font-semibold py-2 rounded-md px-4"> 
             <span>{{ $user->nama }}</span>

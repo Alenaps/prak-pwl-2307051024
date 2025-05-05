@@ -118,7 +118,35 @@
             </div>
 
             <!-- Submit Button -->
-            <button class="button" type="submit">Submit</button>
+            <button class="button btn-submit" type="submit">Submit</button>
         </form>
     </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('.form-container');
+            const submitBtn = document.querySelector('.btn-submit');
+
+            submitBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Simpan perubahan?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Simpan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
+
 @endsection

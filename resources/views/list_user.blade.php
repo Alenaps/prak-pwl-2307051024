@@ -23,7 +23,19 @@
                         <td class="px-4 py-2"><?= $user['npm'] ?></td>
                         <td class="px-4 py-2"><?= $user['nama_kelas'] ?></td>
                         <td>
-                            <img src="{{ asset('assets/upload/img/'. $user->foto) }}" alt="Foto User" width="80">
+                            <!-- <img src="{{ asset('assets/upload/img/'. $user->foto) }}" alt="Foto User" width="80"> -->
+                            @php
+                                $pathStorage = 'storage/uploads/' . $user->foto;
+                                $pathAsset = 'assets/upload/img/' . $user->foto;
+                            @endphp
+
+                            @if($user->foto && file_exists(public_path($pathStorage)))
+                                <img src="{{ asset($pathStorage) }}" alt="Foto User" width="80">
+                            @elseif($user->foto && file_exists(public_path($pathAsset)))
+                                <img src="{{ asset($pathAsset) }}" alt="Foto User" width="80">
+                            @else
+                                <img src="{{ asset('assets/img/fotoprofile.jpeg') }}" alt="Default User" width="80">
+                            @endif
                         </td>
                         <td class="px-4 py-2"> 
                             <!--Detail-->
@@ -34,8 +46,7 @@
                             <form action="{{ route('user.destroy', $user['id']) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')    
-                                <button type="submit" class="btn btn-danger" 
-                                onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Hapus</button>
+                                <button type="button" class="btn btn-danger btn-hapus">Hapus</button>
                             </form>
                         </td>
                     </td>
@@ -45,4 +56,45 @@
             </tbody>
         </table>
     </div>
+ 
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-hapus').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Batal',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+@if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                position: 'top-center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        </script>
+    @endif
 @endsection
